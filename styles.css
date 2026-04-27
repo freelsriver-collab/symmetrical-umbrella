@@ -1,0 +1,67 @@
+:root {
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #151515;
+  color: #efefef;
+  display: flex;
+  justify-content: center;
+}
+#app {
+  width: min(100vw, 460px);
+  padding: 8px;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+canvas {
+  width: 100%;
+  height: auto;
+  border: 2px solid #333;
+  border-radius: 8px;
+  touch-action: manipulation;
+  background: #203146;
+}
+.controls button,
+.upgradeRow button,
+#resumeBtn {
+  margin: 2px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  background: #3b82f6;
+  color: white;
+  font-weight: 600;
+}
+#hud, #towerPanel {
+  margin-top: 8px;
+  padding: 8px;
+  background: #202020;
+  border-radius: 8px;
+}
+.upgradeRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.hint { font-size: 0.8rem; opacity: 0.8; }
+#pauseMenu {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#pauseMenu.hidden { display: none; }
+.modal {
+  background: #262626;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
