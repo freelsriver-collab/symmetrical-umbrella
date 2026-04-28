@@ -26,6 +26,10 @@
           <div>Cash: <span id="cash">500</span></div>
           <div>Wave: <span id="wave">0</span>/<span id="maxWave">5</span></div>
           <div>Status: <span id="status">Ready</span></div>
+          <div>
+            <label for="modeSelect">Mode</label>
+            <select id="modeSelect"></select>
+          </div>
         </section>
 
         <section id="towerShop">
@@ -47,6 +51,7 @@
             <button data-path="1" id="up1">Upgrade Mid</button>
             <button data-path="2" id="up2">Upgrade Bot</button>
           </div>
+          <button id="targetModeBtn">Target: First</button>
           <p class="hint">Rules: only 2 paths can be chosen; only 1 chosen path can pass tier 2 and reach tier 5.</p>
         </section>
       </aside>

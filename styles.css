@@ -43,6 +43,7 @@ button, select {
   color: white;
   font-weight: 600;
 }
+label { font-size: 0.8rem; opacity: 0.9; margin-right: 6px; }
 select { width: 100%; background: #334155; margin-top: 6px; }
 button { cursor: pointer; }
 button.secondary { background: #10b981; }
