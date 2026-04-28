@@ -38,19 +38,69 @@ const pathPoints = [
   { x: 90, y: 430 }, { x: 1020, y: 430 }, { x: 1020, y: 650 }
 ];
 
+function enemyDef(name, hp, spd, color, shape, extra = {}) {
+  return { name, hp, speed: spd * 30, color, shape, ...extra };
+}
+
 const enemyTypes = {
-  normal: { hp: 45, speed: 45, color: '#ef4444', shape: 'circle' },
-  fast: { hp: 30, speed: 88, color: '#facc15', shape: 'triangle' },
-  tank: { hp: 170, speed: 26, color: '#111111', shape: 'square' },
-  armored: { hp: 120, speed: 34, color: '#9333ea', shape: 'hex', armor: 7, metal: true },
+  normal: enemyDef('Normal', 45, 1.5, '#ef4444', 'circle'),
+  fast: enemyDef('Fast', 30, 2.9, '#facc15', 'triangle'),
+  tank: enemyDef('Tank', 170, 0.85, '#111111', 'square'),
+  armored: enemyDef('Armored', 120, 1.1, '#9333ea', 'hex', { armor: 7, metal: true }),
+  swarmling: enemyDef('Swarmling', 5, 1.5, '#dc2626', 'tinyDot', { size: 5 }),
+  charger: enemyDef('Charger', 35, 2.5, '#f97316', 'arrow'),
+  brute: enemyDef('Brute', 90, 0.6, '#7f1d1d', 'square'),
+  shieldUnit: enemyDef('Shield Unit', 30, 1, '#2563eb', 'hex', { armor: 10, metal: true }),
+  phantom: enemyDef('Phantom', 25, 1.5, 'rgba(255,255,255,0.55)', 'circle', { alpha: 0.6 }),
+  juggernaut: enemyDef('Juggernaut', 150, 0.4, '#050505', 'bigSquare', { armor: 15, metal: true, size: 17 }),
+  scout: enemyDef('Scout', 10, 3, '#22c55e', 'smallTriangle', { size: 9 }),
+  splitter: enemyDef('Splitter', 25, 1, '#ef4444', 'crackedCircle'),
+  toxicBlob: enemyDef('Toxic Blob', 35, 0.8, '#16a34a', 'slime'),
+  frostWalker: enemyDef('Frost Walker', 40, 0.9, '#7dd3fc', 'square'),
+  shockUnit: enemyDef('Shock Unit', 30, 1.2, '#fde047', 'hex', { electrified: true, metal: true }),
+  heavyGuard: enemyDef('Heavy Guard', 80, 0.7, '#581c87', 'hex', { armor: 12, metal: true }),
+  bomber: enemyDef('Bomber', 20, 1, '#dc2626', 'coreCircle'),
+  leech: enemyDef('Leech', 18, 1.3, '#0a0a0a', 'oval'),
+  glassCannon: enemyDef('Glass Cannon', 10, 2, '#67e8f9', 'crackedTriangle'),
+  warMachine: enemyDef('War Machine', 120, 0.6, '#9ca3af', 'square', { armor: 20, metal: true }),
+  swarmQueen: enemyDef('Swarm Queen', 200, 0.7, '#b91c1c', 'blob', { size: 18 }),
+  wisp: enemyDef('Wisp', 15, 2, '#ffffff', 'orbGlow'),
+  crusher: enemyDef('Crusher', 110, 0.5, '#374151', 'cube', { size: 16 }),
+  speedDemon: enemyDef('Speed Demon', 25, 3.5, '#eab308', 'blur'),
+  ironclad: enemyDef('Ironclad', 100, 0.8, '#64748b', 'hex', { armor: 25, metal: true }),
+  splitSwarm: enemyDef('Split Swarm', 30, 1.2, '#ef4444', 'cluster'),
+  corruptor: enemyDef('Corruptor', 45, 1, '#7e22ce', 'glitch'),
+  flameSpirit: enemyDef('Flame Spirit', 35, 1.3, '#fb923c', 'flameOrb'),
+  iceGolem: enemyDef('Ice Golem', 120, 0.5, '#22d3ee', 'bigSquare', { size: 16 }),
+  stormCore: enemyDef('Storm Core', 60, 1.2, '#facc15', 'lightningBall'),
+  parasite: enemyDef('Parasite', 8, 2, '#111827', 'tinyDot', { size: 4 }),
+  overloader: enemyDef('Overloader', 70, 1, '#a855f7', 'hex', { armor: 10, metal: true }),
+  titan: enemyDef('Titan', 250, 0.3, '#111111', 'bigSquare', { size: 19 }),
+  bladeRunner: enemyDef('Blade Runner', 30, 2.5, '#9ca3af', 'triangle'),
+  nanoSwarm: enemyDef('Nano Swarm', 15, 1.8, '#94a3b8', 'pixels'),
+  reactorUnit: enemyDef('Reactor Unit', 90, 0.9, '#ef4444', 'coreCircle', { metal: true }),
+  voidWalker: enemyDef('Void Walker', 80, 1, '#4c1d95', 'voidCircle'),
+  magnetizedUnit: enemyDef('Magnetized Unit', 50, 1, '#ef4444', 'magnet', { armor: 8, metal: true }),
+  pulseBeast: enemyDef('Pulse Beast', 70, 1.1, '#a78bfa', 'ring'),
+  riftEntity: enemyDef('Rift Entity', 95, 1, '#7c3aed', 'distort'),
+  bloodSpawn: enemyDef('Blood Spawn', 60, 1, '#b91c1c', 'dripBlob'),
+  boneWalker: enemyDef('Bone Walker', 75, 0.9, '#e7e5e4', 'skeletalSquare'),
+  steamConstruct: enemyDef('Steam Construct', 65, 1, '#94a3b8', 'cloudCube'),
+  inkHorror: enemyDef('Ink Horror', 85, 0.8, '#0f0f0f', 'dripBlob'),
+  soundWaver: enemyDef('Sound Waver', 40, 1.5, '#c4b5fd', 'vibrate'),
+  paperPhantom: enemyDef('Paper Phantom', 30, 1.7, '#f8fafc', 'sheet'),
+  glitchEntity: enemyDef('Glitch Entity', 70, 1.2, '#a855f7', 'glitch'),
+  pixelBeast: enemyDef('Pixel Beast', 90, 0.9, '#60a5fa', 'blocky'),
+  neonRunner: enemyDef('Neon Runner', 35, 3, '#f43f5e', 'blur'),
+  quantumCore: enemyDef('Quantum Core', 150, 1, '#c084fc', 'orbGlow', { metal: true }),
 };
 
 const waveData = [
-  [['normal', 8], ['fast', 4]],
-  [['normal', 10], ['tank', 4]],
-  [['fast', 10], ['armored', 6]],
-  [['tank', 8], ['armored', 8], ['fast', 8]],
-  [['normal', 12], ['fast', 12], ['tank', 8], ['armored', 12]],
+  [['normal', 8], ['fast', 4], ['swarmling', 12], ['scout', 8]],
+  [['brute', 8], ['charger', 8], ['shieldUnit', 6], ['splitter', 8]],
+  [['toxicBlob', 8], ['frostWalker', 8], ['shockUnit', 8], ['heavyGuard', 6]],
+  [['warMachine', 6], ['juggernaut', 6], ['speedDemon', 8], ['ironclad', 5], ['wisp', 8], ['crusher', 5]],
+  [['titan', 2], ['swarmQueen', 2], ['quantumCore', 2], ['neonRunner', 10], ['glitchEntity', 8], ['overloader', 6]],
 ];
 
 const upgradeCosts = [0, 50, 80, 140, 240, 420];
@@ -227,7 +277,7 @@ class Enemy {
     ctx.save(); ctx.translate(p.x, p.y);
     ctx.fillStyle = this.effects.freezeTime > 0 ? '#67e8f9' : this.stats.color;
     if (this.effects.electrified > 0) { ctx.shadowColor = '#60a5fa'; ctx.shadowBlur = 16; }
-    drawShape(this.stats.shape, 12, this.stats.color);
+    drawShape(this.stats.shape, this.stats.size || 12, this.stats.color);
     if (this.effects.tarred > 0) drawDrips('rgba(0,0,0,0.8)');
     if (this.effects.wet > 0) drawDrips('rgba(80,180,255,0.85)');
     ctx.restore();
@@ -327,6 +377,12 @@ function buildSpawnQueue(waveNumber) {
   const spec = waveData[waveNumber - 1] || [];
   const q = [];
   for (const [type, count] of spec) for (let i = 0; i < count; i++) q.push(type);
+  const allTypes = Object.keys(enemyTypes).filter((k) => !['normal', 'fast', 'tank', 'armored'].includes(k));
+  const bonusCount = 10 + waveNumber * 6;
+  for (let i = 0; i < bonusCount; i++) {
+    const pick = allTypes[Math.floor(Math.random() * allTypes.length)];
+    q.push(pick);
+  }
   return q;
 }
 function startGame() {
@@ -395,9 +451,23 @@ function drawShape(shape, r, color) {
   ctx.save();
   ctx.translate(this?.x || 0, this?.y || 0);
   ctx.fillStyle = color || '#fff';
+  if (shape === 'tinyDot') { ctx.beginPath(); ctx.arc(0, 0, Math.max(2, r), 0, Math.PI * 2); ctx.fill(); ctx.restore(); return; }
+  if (shape === 'arrow') { ctx.beginPath(); ctx.moveTo(0, -r); ctx.lineTo(r * 0.9, r * 0.8); ctx.lineTo(0, r * 0.35); ctx.lineTo(-r * 0.9, r * 0.8); ctx.closePath(); ctx.fill(); ctx.restore(); return; }
   if (shape === 'triangle') { ctx.beginPath(); ctx.moveTo(0, -r); ctx.lineTo(r, r); ctx.lineTo(-r, r); ctx.closePath(); ctx.fill(); ctx.restore(); return; }
+  if (shape === 'smallTriangle' || shape === 'crackedTriangle') { ctx.beginPath(); ctx.moveTo(0, -r); ctx.lineTo(r * 0.85, r); ctx.lineTo(-r * 0.85, r); ctx.closePath(); ctx.fill(); if (shape === 'crackedTriangle') { ctx.strokeStyle = '#111'; ctx.beginPath(); ctx.moveTo(-2, -r * 0.3); ctx.lineTo(2, r * 0.7); ctx.stroke(); } ctx.restore(); return; }
   if (shape === 'square') { ctx.fillRect(-r, -r, r * 2, r * 2); ctx.restore(); return; }
+  if (shape === 'bigSquare' || shape === 'cube' || shape === 'blocky' || shape === 'skeletalSquare' || shape === 'cloudCube') { ctx.fillRect(-r, -r, r * 2, r * 2); if (shape === 'skeletalSquare') { ctx.strokeStyle = '#444'; ctx.strokeRect(-r + 3, -r + 3, r * 2 - 6, r * 2 - 6); } if (shape === 'cloudCube') { ctx.globalAlpha = 0.35; ctx.fillStyle = '#d1d5db'; ctx.beginPath(); ctx.arc(-4, -4, 5, 0, Math.PI * 2); ctx.arc(3, -4, 5, 0, Math.PI * 2); ctx.fill(); } ctx.restore(); return; }
   if (shape === 'hex') { ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = (Math.PI * 2 / 6) * i; const x = Math.cos(a) * r; const y = Math.sin(a) * r; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.closePath(); ctx.fill(); ctx.restore(); return; }
+  if (shape === 'coreCircle') { ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(0, 0, r * 0.45, 0, Math.PI * 2); ctx.fill(); ctx.restore(); return; }
+  if (shape === 'oval') { ctx.scale(1.3, 0.8); ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill(); ctx.restore(); return; }
+  if (shape === 'crackedCircle' || shape === 'slime' || shape === 'blob' || shape === 'dripBlob' || shape === 'voidCircle') { ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill(); if (shape === 'crackedCircle') { ctx.strokeStyle = '#111'; ctx.beginPath(); ctx.moveTo(-r * 0.4, -r * 0.2); ctx.lineTo(0, r * 0.1); ctx.lineTo(r * 0.3, r * 0.6); ctx.stroke(); } if (shape === 'dripBlob') { ctx.beginPath(); ctx.arc(-5, r * 0.95, 2, 0, Math.PI * 2); ctx.arc(3, r * 0.9, 2, 0, Math.PI * 2); ctx.fill(); } ctx.restore(); return; }
+  if (shape === 'orbGlow' || shape === 'flameOrb' || shape === 'lightningBall') { ctx.shadowColor = color; ctx.shadowBlur = 12; ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill(); ctx.restore(); return; }
+  if (shape === 'cluster' || shape === 'pixels') { for (let i = 0; i < 4; i++) { ctx.fillRect(-r + i * (r * 0.45), -r + (i % 2) * (r * 0.55), Math.max(3, r * 0.38), Math.max(3, r * 0.38)); } ctx.restore(); return; }
+  if (shape === 'glitch' || shape === 'distort') { ctx.fillRect(-r, -r * 0.7, r * 1.8, r * 0.5); ctx.fillRect(-r * 0.6, -r * 0.1, r * 1.4, r * 0.5); ctx.fillRect(-r * 0.9, r * 0.5, r * 1.9, r * 0.4); ctx.restore(); return; }
+  if (shape === 'blur' || shape === 'vibrate') { ctx.globalAlpha = 0.45; for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(-r * 0.5 + i * r * 0.5, 0, r * 0.6, 0, Math.PI * 2); ctx.fill(); } ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(0, 0, r * 0.75, 0, Math.PI * 2); ctx.fill(); ctx.restore(); return; }
+  if (shape === 'ring') { ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke(); ctx.restore(); return; }
+  if (shape === 'sheet') { ctx.fillRect(-r * 0.7, -r, r * 1.4, r * 1.8); ctx.strokeStyle = '#d1d5db'; ctx.beginPath(); ctx.moveTo(-r * 0.2, -r); ctx.lineTo(-r * 0.2, r * 0.8); ctx.stroke(); ctx.restore(); return; }
+  if (shape === 'magnet') { ctx.fillStyle = '#ef4444'; ctx.fillRect(-r, -r, r, r * 2); ctx.fillStyle = '#3b82f6'; ctx.fillRect(0, -r, r, r * 2); ctx.fillStyle = '#111'; ctx.fillRect(-r * 0.2, r * 0.15, r * 0.4, r * 0.7); ctx.restore(); return; }
   if (shape === 'beam' || shape === 'barrel' || shape === 'cannon' || shape === 'box') { ctx.fillRect(-r * 0.7, -r * 0.45, r * 1.4, r * 0.9); ctx.restore(); return; }
   if (shape === 'spike') { ctx.beginPath(); ctx.moveTo(0, -r); ctx.lineTo(r * 0.8, r); ctx.lineTo(-r * 0.8, r); ctx.closePath(); ctx.fill(); ctx.restore(); return; }
   if (shape === 'fan' || shape === 'swirl' || shape === 'ring' || shape === 'coil') { ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.strokeStyle = color; ctx.lineWidth = 4; ctx.stroke(); ctx.restore(); return; }
