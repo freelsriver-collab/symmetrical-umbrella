@@ -539,6 +539,8 @@ function onCanvasInteract(ev) {
 }
 
 canvas.addEventListener('pointerdown', onCanvasInteract);
+canvas.addEventListener('mousedown', onCanvasInteract);
+canvas.addEventListener('click', onCanvasInteract);
 canvas.addEventListener('touchstart', onCanvasInteract, { passive: false });
 
 function drawMap() {
@@ -713,6 +715,10 @@ function gameLoop(now) {
     ctx.save();
     ctx.translate(t.x, t.y);
     drawShape(t.def.shape, 15, t.def.color);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(0, 0, 3, 0, Math.PI * 2);
+    ctx.fill();
     ctx.strokeStyle = 'rgba(255,255,255,0.5)';
     ctx.lineWidth = 1.6;
     ctx.beginPath();
