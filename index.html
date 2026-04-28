@@ -29,19 +29,23 @@
         </section>
 
         <section id="towerShop">
-          <h2>Towers</h2>
-          <button id="placeTowerBtn">Place Basic Tower (100g)</button>
+          <h2>Tower Shop</h2>
+          <label for="towerSelect">Tower Type</label>
+          <select id="towerSelect"></select>
+          <div id="shopTowerMeta" class="hint"></div>
+          <button id="placeTowerBtn">Place Selected Tower</button>
           <p class="hint">Tap/click the map (not on the road) to place.</p>
         </section>
 
         <section id="towerPanel">
-          <h2>Selected Tower Upgrades</h2>
+          <h2>Selected Tower</h2>
           <div id="selectedLabel">No tower selected</div>
-          <div id="tiers">Path A: <span id="p0">0</span> | Path B: <span id="p1">0</span> | Path C: <span id="p2">0</span></div>
+          <div id="selectedStats" class="statsBlock">Select a tower to view stats.</div>
+          <div id="tiers">Top: <span id="p0">0</span> | Mid: <span id="p1">0</span> | Bot: <span id="p2">0</span></div>
           <div class="upgradeRow">
-            <button data-path="0" id="up0">Upgrade Path A</button>
-            <button data-path="1" id="up1">Upgrade Path B</button>
-            <button data-path="2" id="up2">Upgrade Path C</button>
+            <button data-path="0" id="up0">Upgrade Top</button>
+            <button data-path="1" id="up1">Upgrade Mid</button>
+            <button data-path="2" id="up2">Upgrade Bot</button>
           </div>
           <p class="hint">Rules: only 2 paths can be chosen; only 1 chosen path can pass tier 2 and reach tier 5.</p>
         </section>
