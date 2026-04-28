@@ -295,6 +295,17 @@ class Enemy {
     ctx.globalAlpha = 1;
     if (this.effects.tarred > 0) drawDrips('rgba(0,0,0,0.8)');
     if (this.effects.wet > 0) drawDrips('rgba(80,180,255,0.85)');
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.arc(0, 0, (this.stats.size || 12) + 1.5, 0, Math.PI * 2);
+    ctx.stroke();
+    const barW = 22;
+    const ratio = Math.max(0, Math.min(1, this.hp / this.maxHp));
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(-barW / 2, -((this.stats.size || 12) + 11), barW, 3);
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(-barW / 2, -((this.stats.size || 12) + 11), barW * ratio, 3);
     ctx.restore();
   }
 }
@@ -544,6 +555,9 @@ function drawShape(shape, r, color) {
   if (shape === 'ring') { ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke(); return; }
   if (shape === 'magnet') { ctx.fillStyle = '#ef4444'; ctx.fillRect(-r, -r, r, r * 2); ctx.fillStyle = '#3b82f6'; ctx.fillRect(0, -r, r, r * 2); return; }
   ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
 }
 
 function drawDrips(color) {
@@ -689,6 +703,11 @@ function gameLoop(now) {
     ctx.save();
     ctx.translate(t.x, t.y);
     drawShape(t.def.shape, 15, t.def.color);
+    ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    ctx.arc(0, 0, 16.5, 0, Math.PI * 2);
+    ctx.stroke();
     ctx.restore();
     if (selectedTower === t) {
       const s = t.stats();
