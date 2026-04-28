@@ -508,29 +508,38 @@ function isOnRoad(x, y) {
   return false;
 }
 function canPlaceTower(x, y) {
-  if (x < 24 || x > canvas.width - 24 || y < 24 || y > canvas.height - 24 || isOnRoad(x, y)) return false;
+  if (x < 24 || x > canvas.width - 24 || y < 24 || y > canvas.height - 24) return false;
   return !towers.some((t) => Math.hypot(t.x - x, t.y - y) < 36);
 }
 function screenToCanvas(ev) {
   const r = canvas.getBoundingClientRect();
-  return { x: ((ev.clientX - r.left) / r.width) * canvas.width, y: ((ev.clientY - r.top) / r.height) * canvas.height };
+  const px = ev.clientX ?? ev.touches?.[0]?.clientX ?? 0;
+  const py = ev.clientY ?? ev.touches?.[0]?.clientY ?? 0;
+  return { x: ((px - r.left) / r.width) * canvas.width, y: ((py - r.top) / r.height) * canvas.height };
 }
 
-canvas.addEventListener('click', (ev) => {
+function onCanvasInteract(ev) {
+  ev.preventDefault();
   const { x, y } = screenToCanvas(ev);
   if (state.placingTower) {
     const def = towerDefs[selectedTowerDefIndex];
-    if (state.cash < def.cost || !canPlaceTower(x, y)) return;
+    if (state.cash < def.cost) { state.status = 'Not enough cash'; return; }
+    if (!canPlaceTower(x, y)) { state.status = 'Invalid placement'; return; }
     state.cash -= def.cost;
     const tower = new Tower(def, x, y);
     towers.push(tower);
     selectedTower = tower;
     state.placingTower = false;
     ui.placeTowerBtn.classList.remove('secondary');
+    if (!state.started) startGame();
+    state.status = `Placed ${def.name}`;
     return;
   }
   selectedTower = towers.find((t) => Math.hypot(t.x - x, t.y - y) <= 18) || null;
-});
+}
+
+canvas.addEventListener('pointerdown', onCanvasInteract);
+canvas.addEventListener('touchstart', onCanvasInteract, { passive: false });
 
 function drawMap() {
   ctx.fillStyle = '#203146';
@@ -655,9 +664,10 @@ ui.targetModeBtn.addEventListener('click', () => {
 ui.startBtn.addEventListener('click', startGame);
 ui.placeTowerBtn.addEventListener('click', () => {
   const def = towerDefs[selectedTowerDefIndex];
-  if (state.cash < def.cost) return;
+  if (state.cash < def.cost) { state.status = 'Not enough cash'; return; }
   state.placingTower = !state.placingTower;
   ui.placeTowerBtn.classList.toggle('secondary', state.placingTower);
+  state.status = state.placingTower ? 'Tap map to place tower' : state.status;
 });
 ui.pauseBtn.addEventListener('click', () => {
   state.paused = !state.paused;
