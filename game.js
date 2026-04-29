@@ -531,15 +531,12 @@ function onCanvasInteract(ev) {
     selectedTower = tower;
     state.placingTower = false;
     ui.placeTowerBtn.classList.remove('secondary');
-    if (!state.started) startGame();
     state.status = `Placed ${def.name}`;
     return;
   }
   selectedTower = towers.find((t) => Math.hypot(t.x - x, t.y - y) <= 18) || null;
 }
 
-canvas.addEventListener('pointerdown', onCanvasInteract);
-canvas.addEventListener('mousedown', onCanvasInteract);
 canvas.addEventListener('click', onCanvasInteract);
 canvas.addEventListener('touchstart', onCanvasInteract, { passive: false });
 
